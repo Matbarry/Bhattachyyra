@@ -9,7 +9,7 @@ snr = np.power(10, dsnr_db / 10)
 print('dsnr_db = {}'.format(dsnr_db))
 print("snr = {}".format(snr))
 bhattacharya[0] = np.exp(-snr)
-print("primeiro bat = {}".format(bhattacharya[0]))
+print("primeiro Bhattacharyya = {}".format(bhattacharya[0]))
 k = 0
 canal = []
 for level in range(1, int(np.log2(N)) + 1):
@@ -19,13 +19,13 @@ for level in range(1, int(np.log2(N)) + 1):
         T = bhattacharya[j]
         posicoes = {}
         posicoes[k] = T
-        k = k+1
         print(posicoes)
+        k = k+1
         canal.append(T)
         bhattacharya[j] = 2 * T - np.power(T, 2)#up
         bhattacharya[int(B / 2 + j)] = np.power(T, 2)#low
-print("bat = {}".format(bhattacharya))
-        
+print("Bhattacharyya = {}".format(bhattacharya))
+#print(len(bhattacharya))  
 #congelados
 mask = [[i, 0.0, 1] for i in range(N)]
 reliability = bhattacharya
@@ -35,4 +35,4 @@ mask = sorted(mask, key=itemgetter(1), reverse=True)
 for i in range(N-Kp):
     mask[i][2] = 0
 mask = sorted(mask, key=itemgetter(0))   
-print(np.array([i[2] for i in mask]))
+print("posições: {}".format(np.array([i[2] for i in mask])))
